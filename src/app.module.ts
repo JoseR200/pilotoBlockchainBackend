@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import {ConfigModule} from "@nestjs/config";
 import { VoteModule } from './core/vote/vote.module';
 import { EventModule } from './core/event/event.module';
+import { AttendanceModule } from './core/attendance/attendance.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { EventModule } from './core/event/event.module';
     }),
     VoteModule,
     EventModule,
+    AttendanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
