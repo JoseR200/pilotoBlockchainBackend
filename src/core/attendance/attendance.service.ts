@@ -17,21 +17,23 @@ export class AttendanceService {
     this.wallet = new ethers.Wallet(privateKey!, this.provider);
 
     const abi = [
-      "function recordAttendance(uint256 professorId, uint256 studentId, int256 latitude, int256 longitude) public",
-      "function getAttendanceByStudent(uint256 studentId) public view returns (tuple(uint256 professorId, uint256 studentId, int256 latitude, int256 longitude, uint256 timestamp)[])",
-      "function getAttendanceByProfessor(uint256 professorId) public view returns (tuple(uint256 professorId, uint256 studentId, int256 latitude, int256 longitude, uint256 timestamp)[])"
+      'function recordAttendance(uint256 attendanceId, uint256 professorId, uint256 studentId, int256 latitude, int256 longitude)',
+      'function getAttendanceByStudent(uint256 studentId) public view returns (tuple(uint256 attendanceId, uint256 professorId, uint256 studentId, int256 latitude, int256 longitude, uint256 timestamp)[])',
+      'function getAttendanceByProfessor(uint256 professorId) public view returns (tuple(uint256 attendanceId, uint256 professorId, uint256 studentId, int256 latitude, int256 longitude, uint256 timestamp)[])',
+      'function getAttendanceByAttendance(uint256 attendanceId) public view returns (tuple(uint256 attendanceId, uint256 professorId, uint256 studentId, int256 latitude, int256 longitude, uint256 timestamp)[])',
     ];
     this.contract = new ethers.Contract(contractAddress!, abi, this.wallet);
   }
 
-  async recordAttendance(professorId: number, studentId: number, latitude: number, longitude: number) {
-    const tx = await this.contract.recordAttendance(professorId, studentId, latitude, longitude);
+  async recordAttendance(attendanceId: number, professorId: number, studentId: number, latitude: number, longitude: number) {
+    const tx = await this.contract.recordAttendance(attendanceId, professorId, studentId, latitude, longitude);
     return await tx.wait();
   }
 
   async getByStudent(studentId: number) {
     const records = await this.contract.getAttendanceByStudent(studentId);
     return records.map((r: any) => ({
+      attendanceId: Number(r.attendanceId),
       professorId: Number(r.professorId),
       studentId: Number(r.studentId),
       latitude: Number(r.latitude),
@@ -43,6 +45,7 @@ export class AttendanceService {
   async getByProfessor(professorId: number) {
     const records = await this.contract.getAttendanceByProfessor(professorId);
     return records.map((r: any) => ({
+      attendanceId: Number(r.attendanceId),
       professorId: Number(r.professorId),
       studentId: Number(r.studentId),
       latitude: Number(r.latitude),

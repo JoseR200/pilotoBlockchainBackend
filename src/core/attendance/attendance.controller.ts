@@ -6,9 +6,9 @@ export class AttendanceController {
 
   constructor(private readonly attendanceService: AttendanceService) {}
 
-  @Post(':teacherId/:studentId/:latitude/:longitude')
-  async recordAttendance(@Param('teacherId') teacherId: number, @Param('studentId') studentId: number, @Param('latitude') latitude: number, @Param('longitude') longitude: number) {
-    return this.attendanceService.recordAttendance(teacherId, studentId, latitude, longitude);
+  @Post(':attendanceId/:teacherId/:studentId/:latitude/:longitude')
+  async recordAttendance(@Param('attendanceId') attendanceId: number, @Param('teacherId') teacherId: number, @Param('studentId') studentId: number, @Param('latitude') latitude: number, @Param('longitude') longitude: number) {
+    return this.attendanceService.recordAttendance(attendanceId, teacherId, studentId, latitude, longitude);
   }
 
   @Get('/student/:studentId')
